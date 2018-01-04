@@ -12,6 +12,8 @@ class ArticlesController extends Controller
 	{
 		return view('articles.article', ['articles' => Article::all()]);
 //		return "fuck";
+//		 return asset('js/components/Hello.vue');
+		
 	}
 	
 	public function create()
@@ -43,11 +45,15 @@ class ArticlesController extends Controller
 //		$row->string="fuuuuuuuuuuuuck";
 //		$row->save();
 		return view('articles.create',['id'=>$id]);
-//		return "zzz";
+//		echo json_decode($request->input('dt'))  ;
+		/*return response()->json([
+			'subramos' => $request->input('data')
+		]);*/
+		
 	}
 	
 	public function edit(Request $request,$id){
-		$row=\App\Article::find($id);
+		$row=Article::findOrFail($id);
 		$row->name=$request->input('name');
 		$row->string=$request->input('string');
 		$row->save();

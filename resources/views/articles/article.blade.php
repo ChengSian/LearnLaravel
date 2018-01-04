@@ -115,6 +115,43 @@
         }
     }
 
+    const Resp={
+        //ajax請求回應時會注入template
+        template:'',
+        data:function () {
+            return{
+                submited:false,
+                resp:false,
+                formNameField:"",
+                formStringField:""
+            }
+        },
+        methods:{
+            onSubmit(){
+                var num=event.target.getAttribute('my-data')
+                // router.push(`/edit/${num}`)
+                axios.post(`/edit/${num}`, {
+                    /* firstName: 'Fred',
+                     lastName: 'Flintstone'*/
+
+                    name:this.formNameField,
+                    string:this.formStringField
+                }).then(function (response) {
+                    // console.log(response);
+                    // document.getElementById("app").innerHTML+=response.data;
+                    // window.alert(response.data);
+                    // router.go(-1)
+                    // router.push('/store')
+                    // alert("fuck");
+
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        }
+    }
+
     const Show= {
         template: '<div> <div v-if="!submited"><table id="table">\
             @foreach($articles as $article)\
@@ -124,18 +161,21 @@
             <button  my-data="{{$article->id}}" @click="sub($event)">修改</button>\
             </tr>\
             @endforeach\
-            </table></div></div>',
+            </table>\
+            </div>\
+            <my-response v-if="resp"></my-response>\
+             </div>',
         data:function () {
             return{
                 submited:false,
-                resp:null,
+                resp:false,
                 formNameField:"",
                 formStringField:""
             }
         },
         methods: {
             sub( ) {
-                var vm=this;
+                // var vm=this;
                 this.submited=true;
                 var num=event.target.getAttribute('my-data')
                 router.push(`/show/${num}`)
@@ -148,7 +188,11 @@
                 }).then( (response)=>{
                     // this.$el.appendChild(response.data);
                     // this.resp=response.data
-                    $(this.$el).append(response.data);
+                    Resp.template=response.data;
+                    this.resp=true;
+                    // $(this.$el).append('<my-response></my-response>');
+                    // this.$el.appendChild(this.$el);
+                    // this.resp=response.data
                     // console.log(response);
                     // document.getElementById("app").innerHTML+=response.data;
                     // window.alert(response.data);
@@ -160,28 +204,15 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+
+            }
+
+
             },
-            onSubmit(){
-                axios.post('/store', {
-                    /* firstName: 'Fred',
-                     lastName: 'Flintstone'*/
-
-                    name:this.formNameField,
-                    string:this.formStringField
-                }).then(function (response) {
-                    // console.log(response);
-                    // document.getElementById("app").innerHTML+=response.data;
-                    // window.alert(response.data);
-                    // router.go(-1)
-                    router.push('/store')
-
-                })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            }
+        components: {
+            // <my-component> 将只在父组件模板中可用
+            'my-response': Resp
+        }
         }
 
 
@@ -245,6 +276,7 @@
             {path:'/store',component:Store},
             {path:'/bar/:id(\\d+)',component:Bar},
             {path:'/show/:id(\\d+)?',component:Show},
+            {path:'/edit/:id(\\d+)?',component:Edit},
             {path: '*', component: NotFoundComponent },
             // {path:'/edit/:id(\\d+)',component:Edit}
         ], // （缩写）相当于 routes: routes

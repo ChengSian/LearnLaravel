@@ -16,13 +16,18 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js/app')
-    .extract(['lodash','jquery','axios','vue'])
-    .sass('resources/assets/sass/app.scss', 'public/css/app');
+// mix.js('resources/assets/js/app.js', 'public/js/app')
+//     .extract(['lodash','jquery','axios','vue'])
+//     .sass('resources/assets/sass/app.scss', 'public/css/app');
+mix.browserSync('localhost:8000/hello');
 
-mix.browserSync('localhost:8000');
 
-/*mix.js('resources/assets/js/hello.js', 'public/js')
-   .extract(['lodash','jquery','axios','vue'])
-   .sass('resources/assets/sass/app.scss', 'public/css');*/
+mix.js('resources/assets/js/hello.js', 'public/js/hello')
+   // .extract(['lodash','jquery','axios','vue'],'public/js/hello/hello-vendor')
+
+    .js('resources/assets/js/app.js', 'public/js/app')
+   // .extract(['lodash','jquery','axios','vue'],'public/js/app/app-vendor')
+
+   // .extract(['lodash','jquery','axios','vue'],'public/js/common')
+   .sass('resources/assets/sass/app.scss', 'public/css');
 

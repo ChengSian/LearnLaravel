@@ -1,6 +1,5 @@
 {
-    "/js/app/vendor.js": "/js/app/vendor.js",
-    "/js/app/app.js": "/js/app/app.js",
-    "/css/app/app.css": "/css/app/app.css",
-    "/js/app/manifest.js": "/js/app/manifest.js"
+    "/js/hello/hello.js": "/js/hello/hello.js",
+    "/css/app.css": "/css/app.css",
+    "/js/app/app.js": "/js/app/app.js"
 }
